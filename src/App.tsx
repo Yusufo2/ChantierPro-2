@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import NewReport from './pages/NewReport';
 import ReportView from './pages/ReportView';
+import ReportsPage from './pages/ReportsPage';
+import MaterialsPage from './pages/MaterialsPage';
 
 function ProtectedRoute() {
   const { user } = useApp();
@@ -20,6 +22,8 @@ export default function App() {
           <Route path="/" element={<Login />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/reports" element={<ReportsPage />} />
+            <Route path="/materials" element={<MaterialsPage />} />
             <Route path="/new" element={<NewReport />} />
             <Route path="/report/:id" element={<ReportView />} />
           </Route>

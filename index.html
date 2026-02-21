@@ -5,13 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ChantierPro</title>
     <script>
-      // Suppress "Cannot redefine property: isZerion" error from browser extensions
-      window.addEventListener('error', function(e) {
-        if (e.message && e.message.includes('isZerion')) {
-          e.stopImmediatePropagation();
-          e.preventDefault();
+      // Aggressive patch for "Cannot redefine property: isZerion"
+      (function() {
+        try {
+          var originalDefineProperty = Object.defineProperty;
+          Object.defineProperty = function(obj, prop, descriptor) {
+            // If any script tries to define 'isZerion', simply ignore it and return the object.
+            // This prevents the "Cannot redefine property" error if it's already defined or non-configurable.
+            if (prop === 'isZerion') {
+              console.warn('Suppressing isZerion definition');
+              return obj;
+            }
+            return originalDefineProperty.apply(this, arguments);
+          };
+        } catch (e) {
+          console.warn('Failed to patch Object.defineProperty', e);
         }
-      });
+      })();
     </script>
   </head>
   <body>

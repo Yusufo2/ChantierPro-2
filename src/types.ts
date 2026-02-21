@@ -7,12 +7,22 @@ export interface User {
   role: Role;
 }
 
+export interface Material {
+  id: string;
+  name: string;
+  thickness: string;
+  usage: string;
+  status: 'In Progress' | 'Completed' | 'Pending';
+}
+
 export interface Report {
   id: string;
   date: string;
   projectName: string;
   location: string;
   progress: number;
+  description?: string;
+  images?: string[];
   weather: string;
   workers: {
     role: string;
@@ -109,6 +119,22 @@ export const TRANSLATIONS = {
     material_shortage_warning: 'Alerte : Pénurie de matériaux',
     analyze: 'Analyser',
     whatsapp_summary: 'Résumé WhatsApp',
+    // New translations for Admin Dashboard
+    materials_management: 'Gestion des Matériaux',
+    add_material: 'Ajouter un matériau',
+    edit_material: 'Modifier le matériau',
+    delete_material: 'Supprimer le matériau',
+    thickness: 'Épaisseur',
+    usage: 'Utilisation',
+    status_in_progress: 'En cours',
+    status_completed: 'Terminé',
+    status_pending_material: 'En attente',
+    confirm_delete: 'Confirmer la suppression',
+    cancel: 'Annuler',
+    save: 'Enregistrer',
+    description: 'Description',
+    images: 'Images',
+    upload_image: 'Télécharger une image',
   },
   ar: {
     app_name: 'شانتيي برو',
@@ -186,5 +212,21 @@ export const TRANSLATIONS = {
     material_shortage_warning: 'تنبيه: نقص في المواد',
     analyze: 'تحليل',
     whatsapp_summary: 'ملخص واتساب',
+    // New translations for Admin Dashboard
+    materials_management: 'إدارة المواد',
+    add_material: 'إضافة مادة',
+    edit_material: 'تعديل المادة',
+    delete_material: 'حذف المادة',
+    thickness: 'السمك',
+    usage: 'الاستخدام',
+    status_in_progress: 'قيد التنفيذ',
+    status_completed: 'مكتمل',
+    status_pending_material: 'قيد الانتظار',
+    confirm_delete: 'تأكيد الحذف',
+    cancel: 'إلغاء',
+    save: 'حفظ',
+    description: 'الوصف',
+    images: 'الصور',
+    upload_image: 'رفع صورة',
   }
 };

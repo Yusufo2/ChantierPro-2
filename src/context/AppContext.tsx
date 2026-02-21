@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Language, User, Report, TRANSLATIONS } from '../types';
+import { Language, User, Report, Material, TRANSLATIONS } from '../types';
 
 interface AppContextType {
   user: User | null;
@@ -13,6 +13,10 @@ interface AppContextType {
   addReport: (report: Report) => void;
   updateReport: (report: Report) => void;
   deleteReport: (id: string) => void;
+  materials: Material[];
+  addMaterial: (material: Material) => void;
+  updateMaterial: (material: Material) => void;
+  deleteMaterial: (id: string) => void;
   t: (key: keyof typeof TRANSLATIONS['fr']) => string;
   dir: 'ltr' | 'rtl';
 }
@@ -42,6 +46,12 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // Materials State
+  const [materials, setMaterials] = useState<Material[]>(() => {
+    const saved = localStorage.getItem('cp_materials');
+    return saved ? JSON.parse(saved) : [];
+  });
+
   // Effects
   useEffect(() => {
     localStorage.setItem('cp_user', JSON.stringify(user));
@@ -65,6 +75,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     localStorage.setItem('cp_reports', JSON.stringify(reports));
   }, [reports]);
+
+  useEffect(() => {
+    localStorage.setItem('cp_materials', JSON.stringify(materials));
+  }, [materials]);
 
   // Actions
   const login = (name: string, role: User['role']) => {
@@ -91,6 +105,18 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setReports(prev => prev.filter(r => r.id !== id));
   };
 
+  const addMaterial = (material: Material) => {
+    setMaterials(prev => [material, ...prev]);
+  };
+
+  const updateMaterial = (material: Material) => {
+    setMaterials(prev => prev.map(m => m.id === material.id ? material : m));
+  };
+
+  const deleteMaterial = (id: string) => {
+    setMaterials(prev => prev.filter(m => m.id !== id));
+  };
+
   const t = (key: keyof typeof TRANSLATIONS['fr']) => {
     return TRANSLATIONS[language][key] || key;
   };
@@ -103,6 +129,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       language, setLanguage,
       theme, toggleTheme,
       reports, addReport, updateReport, deleteReport,
+      materials, addMaterial, updateMaterial, deleteMaterial,
       t, dir
     }}>
       {children}
